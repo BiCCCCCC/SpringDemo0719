@@ -1,4 +1,5 @@
 package cn.edu.swu.bc.domain;
+import java.util.List;
 
 public class User {
 
@@ -7,6 +8,9 @@ public class User {
     private String email;
     private String password;
     private String phoneNum;
+
+    //当前用户具备哪些角色
+    private List<Role> roleList;
 
     public Long getId() {
         return id;
@@ -57,5 +61,13 @@ public class User {
                 ", password='" + password + '\'' +
                 ", phoneNum='" + phoneNum + '\'' +
                 '}';
+    }
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 }
