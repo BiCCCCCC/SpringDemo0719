@@ -1,9 +1,11 @@
 package cn.edu.swu.bc.test;
 
 
+import cn.edu.swu.bc.domain.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,5 +27,11 @@ public class JdbcTemplateCRUDTest {
         System.out.println("================================================================");
     }
 
+    @Test
+    public void userTest(){
 
+        User user= jdbcTemplate.queryForObject("select * from sys_user where username=?",
+                new BeanPropertyRowMapper<User>(User.class), "bc");
+        System.out.println(user);
+    }
 }

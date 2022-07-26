@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -19,39 +21,46 @@ public class UserController {
     private RoleService roleService;
 
     @RequestMapping("/list")
-    public ModelAndView list()
-    {
-        ModelAndView modelAndView=new ModelAndView();
+    public ModelAndView list() {
+        ModelAndView modelAndView = new ModelAndView();
         //设置数据
-        modelAndView.addObject("userList",userService.list());
+        modelAndView.addObject("userList", userService.list());
         //设置视图
         modelAndView.setViewName("user-list");
         return modelAndView;
     }
 
     @RequestMapping("/saveUI")
-    public ModelAndView saveUI()
-    {
-        ModelAndView modelAndView=new ModelAndView();
+    public ModelAndView saveUI() {
+        ModelAndView modelAndView = new ModelAndView();
 
         //设置数据
-        modelAndView.addObject("roleList",roleService.list());
+        modelAndView.addObject("roleList", roleService.list());
         //设置视图
         modelAndView.setViewName("user-add");
         return modelAndView;
     }
 
     @RequestMapping("/save")
-    public String save(User user,long [] roleIds)
-    {
-        userService.save(user,roleIds);
+    public String save(User user, long[] roleIds) {
+        userService.save(user, roleIds);
         return "redirect:/user/list";
     }
 
     @RequestMapping("/del/{userId}")
-    public String del( @PathVariable long userId)
-    {
+    public String del(@PathVariable long userId) {
         userService.del(userId);
         return "redirect:/user/list";
+    }
+
+    @RequestMapping("/login")
+    public String login(String username, String password, HttpSession session) {
+        User user = userService.login(username, password);
+        if (user != null) {
+            session.setAttribute("user", user);
+            System.out.println("登录成功=======================");
+            return "redirect:/index.jsp";
+        }
+        return "redirect:/login.jsp";
     }
 }

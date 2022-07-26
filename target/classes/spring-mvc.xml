@@ -23,4 +23,14 @@
     <!--4.组件扫描-->
     <context:component-scan base-package="cn.edu.swu.bc"/>
 
+    <!--5.配置拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--配置对哪些资源执行拦截操作-->
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <bean class="cn.edu.swu.bc.interceptor.PrivilegeInterceptor"/>
+            <!--配置哪些资源不进行拦截操作-->
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
